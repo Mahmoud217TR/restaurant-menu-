@@ -18,4 +18,9 @@ class Discount extends Model
     {
         return $this->morphTo('discountable');
     }
+
+    public function isOwnedBy(User $user): bool
+    {
+        return $this->discountable->isOwnedBy($user);
+    }
 }

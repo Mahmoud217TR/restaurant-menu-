@@ -2,20 +2,25 @@
 
 namespace App\Actions\Discount;
 
+use App\Models\Discount;
+use App\Repositories\DiscountRepository;
+use Illuminate\Support\Facades\DB;
 use Spatie\QueueableAction\QueueableAction;
 
 class DeleteAction
 {
     use QueueableAction;
 
+    public DiscountRepository $discounts;
+
     /**
      * Create a new action instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct(DiscountRepository $discounts)
     {
-        // Prepare the action for execution, leveraging constructor injection.
+        $this->discounts = $discounts;
     }
 
     /**
@@ -23,8 +28,10 @@ class DeleteAction
      *
      * @return mixed
      */
-    public function execute()
+    public function execute(Discount $discount): bool
     {
-        // The business logic goes here.
+        return DB::transaction(fn () => $this->discounts->delete(
+            $discount
+        ));
     }
 }

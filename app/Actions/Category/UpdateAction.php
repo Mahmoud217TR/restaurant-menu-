@@ -2,20 +2,25 @@
 
 namespace App\Actions\Category;
 
+use App\Models\Category;
+use App\Repositories\CategoryRepository;
+use Illuminate\Support\Facades\DB;
 use Spatie\QueueableAction\QueueableAction;
 
 class UpdateAction
 {
     use QueueableAction;
 
+    public CategoryRepository $categories;
+
     /**
      * Create a new action instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct(CategoryRepository $categories)
     {
-        // Prepare the action for execution, leveraging constructor injection.
+        $this->categories = $categories;
     }
 
     /**
@@ -23,8 +28,11 @@ class UpdateAction
      *
      * @return mixed
      */
-    public function execute()
+    public function execute(Category $category, string $name): Category
     {
-        // The business logic goes here.
+        return DB::transaction(fn () => $this->categories->update(
+            $category,
+            $name
+        ));
     }
 }

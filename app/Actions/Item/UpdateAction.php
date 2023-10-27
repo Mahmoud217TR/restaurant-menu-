@@ -2,20 +2,26 @@
 
 namespace App\Actions\Item;
 
+use App\Enums\Currency;
+use App\Models\Item;
+use App\Repositories\ItemsRepository;
+use Illuminate\Support\Facades\DB;
 use Spatie\QueueableAction\QueueableAction;
 
 class UpdateAction
 {
     use QueueableAction;
 
+    public ItemsRepository $items;
+
     /**
      * Create a new action instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct(ItemsRepository $items)
     {
-        // Prepare the action for execution, leveraging constructor injection.
+        $this->items = $items;
     }
 
     /**
@@ -23,8 +29,13 @@ class UpdateAction
      *
      * @return mixed
      */
-    public function execute()
+    public function execute(Item $item, string $name, string $price, Currency $currency): Item
     {
-        // The business logic goes here.
+        return DB::transaction(fn() => $this->items->update(
+            $item,
+            $name,
+            $price,
+            $currency
+        ));
     }
 }

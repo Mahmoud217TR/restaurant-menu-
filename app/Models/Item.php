@@ -46,4 +46,9 @@ class Item extends Model implements Discountable
             $this->price->multiply($this->getDiscountPercentage())->divide(100)
         );
     }
+
+    public function isOwnedBy(User $user): bool
+    {
+        return $this->category->menu_id == $user->menu->id;
+    }
 }

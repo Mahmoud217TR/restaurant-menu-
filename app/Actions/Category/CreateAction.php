@@ -2,20 +2,26 @@
 
 namespace App\Actions\Category;
 
+use App\Models\Category;
+use App\Models\Menu;
+use App\Repositories\CategoryRepository;
+use Illuminate\Support\Facades\DB;
 use Spatie\QueueableAction\QueueableAction;
 
 class CreateAction
 {
     use QueueableAction;
 
+    public CategoryRepository $categories;
+
     /**
      * Create a new action instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct(CategoryRepository $categories)
     {
-        // Prepare the action for execution, leveraging constructor injection.
+        $this->categories = $categories;
     }
 
     /**
@@ -23,8 +29,12 @@ class CreateAction
      *
      * @return mixed
      */
-    public function execute()
+    public function execute(Menu $menu, string $name, Category $parent = null): Category
     {
-        // The business logic goes here.
+        return DB::transaction(fn () => $this->categories->create(
+            $menu,
+            $name,
+            $parent
+        ));
     }
 }

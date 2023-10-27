@@ -28,4 +28,9 @@ class Menu extends Model implements Discountable
     {
         return $this->hasDiscount() ? $this->discount->percentage : 0;
     }
+
+    public function isOwnedBy(User $user): bool
+    {
+        return $this->user_id == $user->id;
+    }
 }

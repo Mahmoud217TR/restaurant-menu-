@@ -2,20 +2,25 @@
 
 namespace App\Actions\Item;
 
+use App\Models\Item;
+use App\Repositories\ItemsRepository;
+use Illuminate\Support\Facades\DB;
 use Spatie\QueueableAction\QueueableAction;
 
 class DeleteAction
 {
     use QueueableAction;
 
+    public ItemsRepository $items;
+
     /**
      * Create a new action instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct(ItemsRepository $items)
     {
-        // Prepare the action for execution, leveraging constructor injection.
+        $this->items = $items;
     }
 
     /**
@@ -23,8 +28,10 @@ class DeleteAction
      *
      * @return mixed
      */
-    public function execute()
+    public function execute(Item $item): bool
     {
-        // The business logic goes here.
+        return DB::transaction(fn() => $this->items->delete(
+            $item
+        ));
     }
 }
