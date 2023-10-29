@@ -29,7 +29,8 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
     Route::resource('category', CategoryController::class);
     Route::resource('item', ItemController::class)->except('index', 'show');
-    Route::resource('discount', DiscountController::class)->except('index', 'show', 'create', 'edit');
+    Route::put('discount', [DiscountController::class, 'put'])->name('discount.put');
+    Route::delete('discount/{discount}', [DiscountController::class, 'destroy'])->name('discount.destroy');
 });
 
 require __DIR__.'/auth.php';

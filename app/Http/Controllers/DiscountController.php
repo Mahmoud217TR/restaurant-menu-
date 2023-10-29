@@ -2,9 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\Discount\StoreRequest;
-use App\Http\Requests\Discount\UpdateRequest;
+use App\Actions\Discount\AssignAction;
+use App\Actions\Discount\DeleteAction;
+use App\Enums\DiscountableType;
+use App\Http\Requests\Discount\AssignRequest;
+use App\Models\Category;
+use App\Models\Contracts\Discountable;
 use App\Models\Discount;
+use App\Models\Item;
 
 class DiscountController extends Controller
 {
@@ -14,26 +19,43 @@ class DiscountController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
-     */
-    public function store(StoreRequest $request)
-    {
-        //
-    }
-
-    /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateRequest $request, Discount $discount)
+    public function put(AssignRequest $request, AssignAction $action)
     {
-        //
+        $discountable = $request->getDiscountable();
+
+        abort_if(!$discountable->isOwnedBy(auth()->user()), 403);
+
+        $discount = $action->execute($discountable, $request->percentage);
+
+        switch ($request->discountable_type) {
+            case DiscountableType::Item:
+                return redirect()->route('item.edit', $discountable->id);
+            case DiscountableType::Category:
+                return redirect()->route('category.edit', $discountable->id);
+            default:
+                return redirect()->route('dashboard');
+        }
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Discount $discount)
+    public function destroy(Discount $discount, DeleteAction $action)
     {
-        //
+        $discountable_type = $discount->discountable_type;
+        $discountable_id = $discount->discountable_id;
+
+        $action->execute($discount);
+
+        switch ($discountable_type) {
+            case Item::class:
+                return redirect()->route('item.edit', $discountable_id);
+            case Category::class:
+                return redirect()->route('category.edit', $discountable_id);
+            default:
+                return redirect()->route('dashboard');
+        }
     }
 }

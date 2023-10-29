@@ -2,6 +2,9 @@
 
 namespace App\Http\Requests\Item;
 
+use App\Enums\Currency;
+use App\Models\Category;
+use BenSampo\Enum\Rules\EnumValue;
 use Illuminate\Foundation\Http\FormRequest;
 
 class StoreRequest extends FormRequest
@@ -22,7 +25,20 @@ class StoreRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'name' => 'required|string|max:255',
+            'price' => 'required|numeric|min:0',
+            'currency' => ['required', new EnumValue(Currency::class)],
+            'category_id' => 'required|exists:categories,id'
         ];
+    }
+
+    public function getCategory(): Category
+    {
+        return Category::find($this->category_id);
+    }
+
+    public function getCurrency(): Currency
+    {
+        return Currency::fromValue($this->currency);
     }
 }

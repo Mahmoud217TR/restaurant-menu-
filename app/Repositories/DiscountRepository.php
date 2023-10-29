@@ -7,20 +7,11 @@ use App\Models\Discount;
 
 class DiscountRepository
 {
-    public function create(Discountable $discountable, float $percentage): Discount
+    public function assign(Discountable $discountable, float $percentage): Discount
     {
-        return $discountable->discount()->create([
+        return $discountable->discount()->updateOrCreate([
             'percentage' => $percentage,
         ]);
-    }
-
-    public function update(Discount $discount, float $percentage): Discount
-    {
-        $discount->update([
-            'percentage' => $percentage,
-        ]);
-
-        return $discount;
     }
 
     public function delete(Discount $discount): bool

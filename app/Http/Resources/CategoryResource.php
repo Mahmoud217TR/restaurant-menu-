@@ -15,15 +15,14 @@ class CategoryResource extends JsonResource
     public function toArray(Request $request): array
     {
         $hasItems = $this->hasItems();
-        $hasSubCategories = $this->hasSubCategories();
-        $discount = $this->getDiscountPercentage();
+        $hasChildren = $this->hasChildren();
 
         return [
             'id' => $this->id,
             'name' => $this->name,
-            'subcategories' => $this->when($hasSubCategories, self::collection($this->categories)),
-            'items' => $this->when($hasItems, self::collection($this->items)),
-            'discount_percentage' => $this->when($discount, $discount),
+            'subcategories' => $this->when($hasChildren, self::collection($this->children)),
+            'items' => $this->when($hasItems, ItemResource::collection($this->items)),
+            'discount' => new DiscountableResource($this),
         ];
     }
 }

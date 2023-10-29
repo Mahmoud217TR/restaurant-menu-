@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Category;
 
+use App\Models\Category;
 use Illuminate\Foundation\Http\FormRequest;
 
 class StoreRequest extends FormRequest
@@ -22,7 +23,13 @@ class StoreRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'name' => 'required|string|max:255',
+            'parent_id' => 'nullable|exists:categories,id',
         ];
+    }
+
+    public function getParentCategory(): ?Category
+    {
+        return Category::find($this->parent_id);
     }
 }

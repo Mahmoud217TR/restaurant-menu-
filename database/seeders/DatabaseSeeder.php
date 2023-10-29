@@ -23,7 +23,7 @@ class DatabaseSeeder extends Seeder
         ]);
 
         $menu = Menu::factory()->forUser($user)->create();
-        Discount::factory()->forDiscountable($menu);
+        Discount::factory()->forDiscountable($menu)->create();
 
         Category::factory(3)
             ->forMenu($menu)
@@ -38,11 +38,11 @@ class DatabaseSeeder extends Seeder
                             ->forCategory($subCategory)
                             ->create()
                             ->each(function ($item) {
-                                Discount::factory()->forDiscountable($item);
+                                Discount::factory()->forDiscountable($item)->create();
                             });
-                        Discount::factory()->forDiscountable($subCategory);
+                        Discount::factory()->forDiscountable($subCategory)->create();
                     });
-                Discount::factory()->forDiscountable($category);
+                Discount::factory()->forDiscountable($category)->create();
             });
     }
 }

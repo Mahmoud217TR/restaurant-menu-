@@ -13,7 +13,7 @@ class ItemsRepository
     {
         return $category->items()->create([
             'name' => $name,
-            'price' => $price,
+            'price' => floatval($price),
             'currency' => $currency,
         ]);
     }
@@ -22,7 +22,7 @@ class ItemsRepository
     {
         $item->update([
             'name' => $name,
-            'price' => $price,
+            'price' => floatval($price),
             'currency' => $currency,
         ]);
 

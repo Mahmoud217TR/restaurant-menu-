@@ -2,6 +2,8 @@
 
 namespace App\Http\Requests\Item;
 
+use App\Enums\Currency;
+use BenSampo\Enum\Rules\EnumValue;
 use Illuminate\Foundation\Http\FormRequest;
 
 class UpdateRequest extends FormRequest
@@ -22,7 +24,14 @@ class UpdateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'name' => 'required|string|max:255',
+            'price' => 'required|numeric|min:0',
+            'currency' => ['required', new EnumValue(Currency::class)],
         ];
+    }
+
+    public function getCurrency(): Currency
+    {
+        return Currency::fromValue($this->currency);
     }
 }

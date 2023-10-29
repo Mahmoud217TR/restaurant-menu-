@@ -15,6 +15,7 @@ class CategoryRepository
 
         if (filled($parent)) {
             $category->parent()->associate($parent);
+            $category->save();
         }
 
         return $category;

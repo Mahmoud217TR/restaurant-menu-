@@ -19,9 +19,9 @@ class ItemResource extends JsonResource
         return [
             'id' => $this->id,
             'name' => $this->name,
-            'price' => $this->price->format(),
-            'discount_percentage' => $this->when($discount, $discount),
-            'discount_price' => $this->when($discount, $this->getDiscountPrice()->format()),
+            'price' => new PriceResource($this->price),
+            'discount' => new DiscountableResource($this),
+            'discount_price' => $this->when($discount, new PriceResource($this->getDiscountPrice()))
         ];
     }
 }

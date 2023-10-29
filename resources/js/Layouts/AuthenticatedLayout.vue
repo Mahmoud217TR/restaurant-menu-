@@ -30,7 +30,7 @@ const showingNavigationDropdown = ref(false);
                             <!-- Navigation Links -->
                             <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
                                 <NavLink :href="route('dashboard')" :active="route().current('dashboard')">
-                                    Dashboard
+                                    My Menu
                                 </NavLink>
                             </div>
                         </div>
@@ -113,7 +113,7 @@ const showingNavigationDropdown = ref(false);
                 >
                     <div class="pt-2 pb-3 space-y-1">
                         <ResponsiveNavLink :href="route('dashboard')" :active="route().current('dashboard')">
-                            Dashboard
+                            My Menu
                         </ResponsiveNavLink>
                     </div>
 
@@ -137,11 +137,17 @@ const showingNavigationDropdown = ref(false);
             </nav>
 
             <!-- Page Heading -->
-            <header class="bg-white shadow" v-if="$slots.header">
+            <header class="bg-white shadow relative overflow-hidden" v-if="$slots.header">
                 <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
                     <slot name="header" />
                 </div>
             </header>
+
+            <div class="relative" v-if="$slots.crudBox">
+                <div class="w-full mx-auto py-6 px-4 sm:px-6 lg:px-8">
+                    <slot name="crudBox" />
+                </div>
+            </div>
 
             <!-- Page Content -->
             <main>
