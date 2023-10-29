@@ -21,7 +21,8 @@ class ItemResource extends JsonResource
             'name' => $this->name,
             'price' => new PriceResource($this->price),
             'discount' => new DiscountableResource($this),
-            'discount_price' => $this->when($discount, new PriceResource($this->getDiscountPrice()))
+            'discount_price' => $this->when($discount, new PriceResource($this->getDiscountPrice())),
+            'category_id' => $this->category_id,
         ];
     }
 }

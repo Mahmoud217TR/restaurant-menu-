@@ -32,8 +32,8 @@ const closeModal = () => {
 <template>
     <tr v-for="item in items" class="flex justify-between items-center odd:bg-neutral-200 even:bg-neutral-100 py-4 px-20 relative overflow-hidden">
         <td>{{ item.name }}</td>
-        <td class="flex min-w-[8rem] justify-evenly items-center">
-            <span v-if="item.discount_price" class="text-red-500 font-bold">
+        <td class="flex min-w-[8rem] justify-end items-center">
+            <span v-if="item.discount_price" class="text-red-500 font-bold me-auto">
                 {{ item.discount_price.formatted }}
             </span>
             <span class="font-bold" :class="{ 'line-through':item.discount_price }">

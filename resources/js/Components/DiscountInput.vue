@@ -40,8 +40,8 @@ const remove = () => {
 
 <template>
     <form @submit.prevent="submit">
-        <div>
-            <InputLabel for="percentage" value="Discount" />
+        <div :class="{'flex items-center justify-evenly':discountableType=='menu'}">
+            <InputLabel class="me-2" for="percentage" value="Discount" />
             <div class="flex justify-center items-center">
                 <TextInput
                     id="percentage"

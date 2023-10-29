@@ -1,17 +1,16 @@
 <script setup>
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
-import CategoryList from '@/Components/CategoryList.vue';
 import CategoryItemList from '@/Components/CategoryItemList.vue';
 import InputLabel from '@/Components/InputLabel.vue';
 import TextInput from '@/Components/TextInput.vue';
 import InputError from '@/Components/InputError.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
+import SecondaryButton from '@/Components/SecondaryButton.vue';
 import DiscountInput from '@/Components/DiscountInput.vue';
-import { Head, useForm } from '@inertiajs/vue3';
+import { Head, useForm, Link } from '@inertiajs/vue3';
 
 const props = defineProps({
     item: Object,
-    category: Object,
 });
 
 const form = useForm({
@@ -82,12 +81,14 @@ const submit = () => {
                     <InputError class="mt-2" :message="form.errors.currency" />
                 </div>
                 <div>
-                    <InputError class="mt-2" :message="form.errors.category_id" />
-                </div>
-                <div>
                     <DiscountInput :discountable-id="props.item.id" discountable-type="item" :discount-percentage="props.item.discount.direct_discount_percentage" :discount-id="props.item.discount.discount_id" />
                 </div>
                 <div class="flex items-center justify-start mt-4">
+                    <Link class="me-2" :href="route('category.show', props.item.category_id)">
+                        <SecondaryButton>
+                                Cancel
+                        </SecondaryButton>
+                    </Link>
                     <PrimaryButton class="" :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
                         Update
                     </PrimaryButton>

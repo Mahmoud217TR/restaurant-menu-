@@ -61,8 +61,7 @@ class ItemController extends Controller
     public function edit(Item $item)
     {
         $item = new ItemResource($item);
-        $category = new CategoryResource($item->category);
-        return Inertia::render('Item/Edit', compact('item', 'category'));
+        return Inertia::render('Item/Edit', compact('item'));
     }
 
     /**

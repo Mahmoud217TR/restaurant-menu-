@@ -6,7 +6,8 @@ import InputLabel from '@/Components/InputLabel.vue';
 import TextInput from '@/Components/TextInput.vue';
 import InputError from '@/Components/InputError.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
-import { Head, useForm } from '@inertiajs/vue3';
+import SecondaryButton from '@/Components/SecondaryButton.vue';
+import { Head, useForm, Link } from '@inertiajs/vue3';
 
 const props = defineProps({
     parent: String,
@@ -50,6 +51,11 @@ const submit = () => {
                     <InputError class="mt-2" :message="form.errors.parent_id" />
                 </div>
                 <div class="flex items-center justify-start mt-4">
+                    <Link class="me-2" :href="props.parent?route('category.show', props.parent):route('dashboard')">
+                        <SecondaryButton>
+                                Cancel
+                        </SecondaryButton>
+                    </Link>
                     <PrimaryButton class="" :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
                         Create
                     </PrimaryButton>

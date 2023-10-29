@@ -72,6 +72,11 @@ class Category extends Model implements Discountable
         return $this->children()->exists();
     }
 
+    public function hasFullChildrenLimit(): bool
+    {
+        return $this->children()->count() >= config('app.subcategory_limit');
+    }
+
     public function isOwnedBy(User $user): bool
     {
         return $this->menu_id == $user->menu->id;

@@ -45,7 +45,7 @@ class CategoryController extends Controller
 
         abort_if(
             $parent &&
-            (!$parent->isOwnedBy(auth()->user()) || $parent->hasItems()),
+            (!$parent->isOwnedBy(auth()->user()) || $parent->hasItems() || $parent->hasFullChildrenLimit()),
             422,
             "Invalid Parent Category"
         );

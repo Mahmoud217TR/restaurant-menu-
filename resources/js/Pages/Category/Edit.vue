@@ -7,7 +7,8 @@ import InputLabel from '@/Components/InputLabel.vue';
 import TextInput from '@/Components/TextInput.vue';
 import InputError from '@/Components/InputError.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
-import { Head, useForm } from '@inertiajs/vue3';
+import SecondaryButton from '@/Components/SecondaryButton.vue';
+import { Head, useForm, Link } from '@inertiajs/vue3';
 
 const props = defineProps({
     category: Object,
@@ -47,12 +48,14 @@ const submit = () => {
                     <InputError class="mt-2" :message="form.errors.name" />
                 </div>
                 <div>
-                    <DiscountInput :discountable-id="props.category.id" discountable-type="category" :discount-percentage="props.category.discount.direct_discount_percentage" :discount-id="props.category.discount.discount_id" />
-                </div>
-                <div>
-                    <InputError class="mt-2" :message="form.errors.parent_id" />
+                    <DiscountInput :discountable-id="props.category.id" discountable-type="category" :discount-percentage="props.category.discount.direct_discount_percentage" :discount-id="discount_id" />
                 </div>
                 <div class="flex items-center justify-start mt-4">
+                    <Link class="me-2" :href="props.category.parent_id?route('category.show', props.category.parent_id):route('dashboard')">
+                        <SecondaryButton>
+                                Cancel
+                        </SecondaryButton>
+                    </Link>
                     <PrimaryButton class="" :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
                         Update
                     </PrimaryButton>

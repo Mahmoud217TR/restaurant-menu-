@@ -23,6 +23,7 @@ class CategoryResource extends JsonResource
             'subcategories' => $this->when($hasChildren, self::collection($this->children)),
             'items' => $this->when($hasItems, ItemResource::collection($this->items)),
             'discount' => new DiscountableResource($this),
+            'parent_id' => $this->parent_id,
         ];
     }
 }
