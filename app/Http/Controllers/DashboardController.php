@@ -14,7 +14,7 @@ class DashboardController extends Controller
      */
     public function __invoke(Request $request)
     {
-        $menu = new MenuResource(auth()->user()->menu);
+        $menu = new MenuResource(auth()->user()->menu->load('rootCategories'));
         return Inertia::render('Dashboard', compact('menu'));
     }
 }

@@ -14,14 +14,11 @@ class CategoryResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        $hasItems = $this->hasItems();
-        $hasChildren = $this->hasChildren();
-
         return [
             'id' => $this->id,
             'name' => $this->name,
-            'subcategories' => $this->when($hasChildren, self::collection($this->children)),
-            'items' => $this->when($hasItems, ItemResource::collection($this->items)),
+            'subcategories' => $this->when($this->relationLoaded('children'), self::collection($this->children)),
+            'items' => $this->when($this->relationLoaded('items'), ItemResource::collection($this->items)),
             'discount' => new DiscountableResource($this),
             'parent_id' => $this->parent_id,
         ];

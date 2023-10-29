@@ -16,12 +16,7 @@ class MenuResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'categories' => CategoryResource::collection(
-                $this->categories()
-                    ->roots()
-                    ->with('children', 'items')
-                    ->get()
-            ),
+            'categories' => CategoryResource::collection($this->when($this->relationLoaded('categories'), $this->categories, $this->rootCategories)),
             'discount' => new DiscountableResource($this),
         ];
     }

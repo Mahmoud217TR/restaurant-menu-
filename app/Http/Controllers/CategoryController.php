@@ -20,14 +20,6 @@ class CategoryController extends Controller
     }
 
     /**
-     * Display a listing of the resource.
-     */
-    public function index()
-    {
-        //
-    }
-
-    /**
      * Show the form for creating a new resource.
      */
     public function create(Request $request)
@@ -64,7 +56,7 @@ class CategoryController extends Controller
      */
     public function show(Category $category)
     {
-        $category = new CategoryResource($category);
+        $category = new CategoryResource($category->load('children', 'items'));
         return Inertia::render('Category/Show', compact('category'));
     }
 

@@ -24,6 +24,11 @@ class Menu extends Model implements Discountable
         return $this->hasMany(Category::class);
     }
 
+    public function rootCategories(): HasMany
+    {
+        return $this->categories()->whereNull('parent_id');
+    }
+
     public function getDiscountPercentage(): float
     {
         return $this->hasDiscount() ? $this->discount->percentage : 0;
