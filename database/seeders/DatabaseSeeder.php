@@ -40,9 +40,9 @@ class DatabaseSeeder extends Seeder
                             ->each(function ($item) {
                                 Discount::factory()->forDiscountable($item)->create();
                             });
-                        Discount::factory()->forDiscountable($subCategory)->create();
+                        // Discount::factory()->forDiscountable($subCategory)->create();
                     });
-                Discount::factory()->forDiscountable($category)->create();
+                // Discount::factory()->forDiscountable($category)->create();
             });
     }
 }
