@@ -38,11 +38,11 @@ class DatabaseSeeder extends Seeder
                             ->forCategory($subCategory)
                             ->create()
                             ->each(function ($item) {
-                                Discount::factory()->forDiscountable($item)->create();
+                                // Discount::factory()->forDiscountable($item)->create();
                             });
                         // Discount::factory()->forDiscountable($subCategory)->create();
                     });
-                // Discount::factory()->forDiscountable($category)->create();
+                Discount::factory()->forDiscountable($category)->create();
             });
     }
 }
