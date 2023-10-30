@@ -9,9 +9,20 @@ class DiscountRepository
 {
     public function assign(Discountable $discountable, float $percentage): Discount
     {
-        return $discountable->discount()->updateOrCreate([
-            'percentage' => $percentage,
-        ]);
+        $discount = $discountable->discount;
+
+        if (filled($discount)) {
+            $discount->update([
+                'percentage' => $percentage,
+            ]);
+        } else {
+            $discount = $discountable->discount()->create([
+                'percentage' => $percentage,
+            ]);
+        }
+
+
+        return $discount;
     }
 
     public function delete(Discount $discount): bool
